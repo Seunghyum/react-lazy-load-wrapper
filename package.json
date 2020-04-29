@@ -1,0 +1,21 @@
+{
+  "name": "lazy-load-wrapper",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "description": "IntersectionObserver API for react class component",
+  "scripts": {
+    "class:dev": "yarn workspace lazy-load-wrapper-class dev",
+    "hooks:dev": "yarn workspace lazy-load-wrapper-hooks dev"
+  },
+  "workspaces": [
+    "hooks",
+    "class"
+  ],
+  "keywords": [
+    "Intersection Observer API",
+    "react",
+    "class component",
+    "hooks"
+  ]
+}
