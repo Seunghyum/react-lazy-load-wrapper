@@ -3,17 +3,16 @@ import LazyLoadObserver from './LazyLoadObserver'
 
 /**
  * https://github.com/thebuilder/react-intersection-observer#readme 참고
- * @param {Boolean} isTriggerOnce
- * @param {DOMNode} target
- * @param {Object} options {
- *     @param {DOMNode} root
- *     @param {Boolean} threshold
- *     @param {String} rootMargin
- * }
- * @param {Callback} onTrigger
- * @param {String} label // 적용할 IntersectionObserver 객체 구분자
+ * @param {object} props
+ * @param {boolean} [props.isTriggerOnce]
+ * @param {Node} [props.target]
+ * @param {object} [props.options]
+ * @param {Node} [props.options.root]
+ * @param {boolean} [props.options.threshold]
+ * @param {string} [props.options.rootMargin]
+ * @param {Function} [props.onTrigger]
+ * @param {string} [props.label] - 적용할 IntersectionObserver 객체 구분자
  */
-
 const LazyLoadWrapper = props => {
   const ref = useRef(null)
 
