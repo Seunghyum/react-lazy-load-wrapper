@@ -12,6 +12,7 @@ import LazyLoadObserver from './LazyLoadObserver'
  * @param {string} [props.options.rootMargin]
  * @param {Function} [props.onTrigger]
  * @param {string} [props.label] - 적용할 IntersectionObserver 객체 구분자
+ * @param {import('react').ReactNode} [props.children]
  */
 const LazyLoadWrapper = props => {
   const ref = useRef(null)
