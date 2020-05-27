@@ -3,6 +3,7 @@ const defaultOptions = { root: null, rootMargin: '0px 0px 0px 0px', threshold: 0
 class LazyLoadObserver {
   constructor() {
     this.observerInstances = new Map()
+    /** @type {Map<Node, Function[]>} */
     this.obCallbacks = new Map()
   }
 
@@ -14,8 +15,8 @@ class LazyLoadObserver {
     const callback = entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const getCallback = this.obCallbacks.get(entry.target)
-          getCallback()
+          const callbacks = this.obCallbacks.get(entry.target)
+          callbacks.forEach(cb => cb())
           if (isTriggerOnce) this.removeObserveTarget(label, entry.target)
         }
       })
@@ -31,7 +32,8 @@ class LazyLoadObserver {
   addObserveTarget({ label, target, callback }) {
     const observerInstance = this.getObserver(label)
     if (!observerInstance) return console.error(`observerInstance not exist by label : ${label}`)
-    this.obCallbacks.set(target, callback)
+    if (!this.obCallbacks.has(target)) this.obCallbacks.set(target, [])
+    this.obCallbacks.get(target).push(callback)
     observerInstance.observe(target)
   }
 
