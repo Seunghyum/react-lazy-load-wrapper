@@ -14,7 +14,7 @@ import LazyLoadObserver from './LazyLoadObserver'
  * @param {string} [props.label] - 적용할 IntersectionObserver 객체 구분자
  * @param {import('react').ReactNode} [props.children]
  */
-const LazyLoadWrapper = props => {
+const LazyLoadWrapper = ({ target, options, isTriggerOnce, label, children }) => {
   const ref = useRef(null)
 
   const [isVisible, setIsVisible] = useState(false)
@@ -24,8 +24,6 @@ const LazyLoadWrapper = props => {
   }
 
   useEffect(() => {
-    const { target = ref.current, options, isTriggerOnce, label } = props
-
     if (!LazyLoadObserver.hasObserver(label)) {
       LazyLoadObserver.createObserver({ label, options, isTriggerOnce })
     }
@@ -33,9 +31,7 @@ const LazyLoadWrapper = props => {
     return () => {
       LazyLoadObserver.disconnect(label)
     }
-  }, [])
-
-  const { children } = props
+  }, [target || ref.current, options, isTriggerOnce, label])
 
   return (
     <div ref={ref} className="lazy-load-wrapper">
