@@ -25,9 +25,9 @@ const LazyLoadWrapper = ({ target, options, isTriggerOnce, label, children }) =>
 
   useEffect(() => {
     if (!LazyLoadObserver.hasObserver(label)) {
-      LazyLoadObserver.createObserver({ label, options, isTriggerOnce })
+      LazyLoadObserver.createObserver({ label, options })
     }
-    LazyLoadObserver.addObserveTarget({ label, target, callback: onVisible })
+    LazyLoadObserver.addObserveTarget({ label, target, callback: onVisible, isTriggerOnce })
     return () => {
       LazyLoadObserver.disconnect(label)
     }
