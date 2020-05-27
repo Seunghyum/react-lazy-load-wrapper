@@ -70,4 +70,4 @@ class LazyLoadObserver {
   }
 }
 
-export default new LazyLoadObserver()
+export default LazyLoadObserver
