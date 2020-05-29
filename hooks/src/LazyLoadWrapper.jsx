@@ -19,16 +19,11 @@ const observerMap = new Map()
  */
 const LazyLoadWrapper = ({ target, options, isTriggerOnce, label, children }) => {
   const ref = useRef(null)
-
   const [isVisible, setIsVisible] = useState(false)
-
-  const onVisible = () => {
-    setIsVisible(true)
-  }
 
   useEffect(() => {
     if (!observerMap.has(label)) observerMap.set(label, new LazyLoadObserver(options))
-    return observerMap.get(label).add(target ?? ref.current, onVisible, { isTriggerOnce })
+    return observerMap.get(label).add(target ?? ref.current, () => setIsVisible(true), { isTriggerOnce })
   }, [target || ref.current, options, isTriggerOnce, label])
 
   return (
