@@ -41,10 +41,6 @@ class LazyLoadObserver {
     this.observer.unobserve(target)
     this.obCallbacks.delete(target)
   }
-
-  disconnect() {
-    this.observer.disconnect()
-  }
 }
 
 export default LazyLoadObserver
