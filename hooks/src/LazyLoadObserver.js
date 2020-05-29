@@ -15,7 +15,7 @@ class LazyLoadObserver {
     this.obCallbacks = new Map()
   }
 
-  addObserveTarget({ target, callback, isTriggerOnce }) {
+  add(target, callback, { isTriggerOnce = false } = {}) {
     if (!this.obCallbacks.has(target)) this.obCallbacks.set(target, [])
 
     const callbacks = this.obCallbacks.get(target)
