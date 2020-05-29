@@ -21,7 +21,10 @@ class LazyLoadObserver {
     const callbacks = this.obCallbacks.get(target)
     const unsubscribe = () => {
       callbacks.splice(callbacks.indexOf(callback), 1)
-      if (callbacks.length === 0) this.removeObserveTarget(target)
+      if (callbacks.length === 0) {
+        this.observer.unobserve(target)
+        this.obCallbacks.delete(target)
+      }
     }
 
     callbacks.push(
@@ -35,11 +38,6 @@ class LazyLoadObserver {
     this.observer.observe(target)
 
     return unsubscribe
-  }
-
-  removeObserveTarget(target) {
-    this.observer.unobserve(target)
-    this.obCallbacks.delete(target)
   }
 }
 
