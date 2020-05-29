@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 import LazyLoadObserver from './LazyLoadObserver'
 
-const lazyLoadObserver = new LazyLoadObserver()
+/** @type {Map<string, LazyLoadObserver>} */
+const observerMap = new Map()
 
 /**
  * https://github.com/thebuilder/react-intersection-observer#readme 참고
@@ -26,13 +27,12 @@ const LazyLoadWrapper = ({ target, options, isTriggerOnce, label, children }) =>
   }
 
   useEffect(() => {
-    if (!lazyLoadObserver.hasObserver(label)) {
-      lazyLoadObserver.createObserver({ label, options })
-    }
-    const unsubscribe = lazyLoadObserver.addObserveTarget({ label, target, callback: onVisible, isTriggerOnce })
+    if (!observerMap.has(label)) observerMap.set(label, new LazyLoadObserver(options))
+    const observer = observerMap.get(label)
+    const unsubscribe = observer.addObserveTarget({ target: target ?? ref.current, callback: onVisible, isTriggerOnce })
     return () => {
       unsubscribe()
-      lazyLoadObserver.disconnect(label)
+      // lazyLoadObserver.disconnect(label)
     }
   }, [target || ref.current, options, isTriggerOnce, label])
 
