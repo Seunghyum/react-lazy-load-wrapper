@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import LazyLoadObserver from './LazyLoadObserver'
 
 /** @type {Map<string, LazyLoadObserver>} */
@@ -17,14 +17,17 @@ const observerMap = new Map()
  * @param {string} [props.label] - 적용할 IntersectionObserver 객체 구분자
  * @param {import('react').ReactNode} [props.children]
  */
-const LazyLoadWrapper = ({ target, options, isTriggerOnce, label, children }) => {
+const LazyLoadWrapper = ({ target, options = {}, isTriggerOnce, label, children }) => {
   const ref = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
 
+  const observer = useMemo(() => {
+    return observerMap.set(label, new LazyLoadObserver(options)).get(label)
+  }, [label, options.root, options.rootMargin, options.threshold])
+
   useEffect(() => {
-    if (!observerMap.has(label)) observerMap.set(label, new LazyLoadObserver(options))
-    return observerMap.get(label).add(target ?? ref.current, () => setIsVisible(true), { isTriggerOnce })
-  }, [target || ref.current, options, isTriggerOnce, label])
+    return observer.add(target ?? ref.current, () => setIsVisible(true), { isTriggerOnce })
+  }, [target || ref.current, isTriggerOnce, observer])
 
   return (
     <div ref={ref} className="lazy-load-wrapper">
