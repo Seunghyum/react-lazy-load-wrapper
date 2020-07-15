@@ -55,3 +55,7 @@ $ yarn hooks:dev
 // class
 $ yarn class:dev
 ```
+
+
+## 더 좋은 예시
+- yongdamsh 님의 [use-element-visibility](https://github.com/yongdamsh/custom-hooks/tree/master/packages/use-element-visibility)
